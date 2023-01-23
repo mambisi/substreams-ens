@@ -1,0 +1,35 @@
+specVersion: v0.1.0
+package:
+  name: ens
+  version: v0.1.3-beta
+  url: https://github.com/mambisi/substreams-ens
+imports:
+  entity: https://github.com/streamingfast/substreams-entity-change/releases/download/v0.2.1/substreams-entity-change-v0.2.1.spkg
+
+
+protobuf:
+  files:
+    - ens.proto
+  importPaths:
+    - ./proto
+
+binaries:
+  default:
+    type: wasm/rust-v1
+    file: target/wasm32-unknown-unknown/release/substreams_ens.wasm
+
+modules:
+  - name: map_domains_created
+    kind: map
+    initialBlock: 12369621
+    inputs:
+      - source: sf.ethereum.type.v2.Block
+    output:
+      type: proto:ens.types.Domain
+
+  - name: store_domains
+    kind: store
+    updatePolicy: set
+    valueType: proto:ens.types.Domain
+    inputs:
+      - map: map_domains_created

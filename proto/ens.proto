@@ -1,5 +1,5 @@
 syntax = "proto3";
-package uniswap.types.v1;
+package ens.types;
 
 message BigInt {
   string value = 1;
