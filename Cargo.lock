@@ -886,6 +886,7 @@ dependencies = [
  "substreams-entity-change",
  "substreams-ethereum",
  "thiserror",
+ "tiny-keccak",
  "wasm-bindgen",
 ]
 

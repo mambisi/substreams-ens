@@ -19,17 +19,17 @@ binaries:
     file: target/wasm32-unknown-unknown/release/substreams_ens.wasm
 
 modules:
-  - name: map_domains_created
+  - name: map_new_owner
     kind: map
-    initialBlock: 12369621
+    initialBlock: 9380380
     inputs:
       - source: sf.ethereum.type.v2.Block
     output:
-      type: proto:ens.types.Domain
+      type: proto:ens.types.Domains
 
   - name: store_domains
     kind: store
     updatePolicy: set
     valueType: proto:ens.types.Domain
     inputs:
-      - map: map_domains_created
+      - map: map_new_owner

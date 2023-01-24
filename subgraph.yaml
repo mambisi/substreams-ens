@@ -1,0 +1,17 @@
+specVersion: 0.0.4
+description: ENS Subgraph (powered by StreamingFast Substreams)
+repository: https://github.com/mambisi/substreams-ens.git
+schema:
+  file: ./ens-subgraph/schema.graphql
+
+dataSources:
+  - kind: substreams
+    name: ens
+    network: mainnet
+    source:
+      package:
+        moduleName: graph_out
+        file: substreams.spkg
+    mapping:
+      kind: substreams/graph-entities
+      apiVersion: 0.0.5
