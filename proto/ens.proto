@@ -9,47 +9,13 @@ message BigDecimal {
   string value = 1;
 }
 
-message Registration {
-  string id = 1;
-  repeated Domain domains = 2;
-  BigInt registration_date = 3;
-  BigInt expiry_date = 4;
-  BigInt cost = 5;
-  Account registrant = 6;
-  string label_name = 7;
-}
-
-message Account {
-  string id = 1;
-  repeated Domain domains = 2;
-  repeated WrappedDomains wrapped_domains = 3;
-  repeated Registration registrations = 4;
-}
-
-message ResolverEvent {
-  string id = 1;
-  Resolver resolver = 2;
-  uint64 block_number = 3;
-  bytes transaction_id = 4;
-}
-
 message Resolver {
   string id = 1;
-  Domain domain = 2;
+  string domain = 2;
   bytes address = 3;
-  Account addr = 4;
-  bytes content_hash = 5;
-  repeated string texts = 6;
-  repeated BigInt coin_types = 7;
-}
-
-message WrappedDomains {
-  string id = 1;
-  Domain domain = 2;
-  BigInt expiry_date = 3;
-  BigInt fuses = 4;
-  Account owner = 5;
-  string label_name = 6;
+  bytes content_hash = 4;
+  repeated string texts = 5;
+  repeated BigInt coin_types = 6;
 }
 
 message Domain {
@@ -57,12 +23,18 @@ message Domain {
   string name = 2;
   string label_name = 3;
   bytes label_hash = 4;
-  Domain parent = 5;
-  repeated Domain subdomains = 6;
-  uint64 subdomain_count = 7;
-  Account resolved_address = 8;
-  Resolver resolver = 9;
-  BigInt ttl = 10;
-  bool is_migrated = 11;
-  BigInt created_at = 12;
+  bytes parent = 5;
+  bytes owner = 6;
+  bytes resolved_address = 7;
+  bytes ttl = 8;
+  bool is_migrated = 9;
+  uint64 created_at_timestamp = 10;
+  uint64 created_at_block = 11;
+
+  // internals
+  uint64 log_ordinal = 30;
+}
+
+message Domains {
+  repeated Domain domains = 1;
 }

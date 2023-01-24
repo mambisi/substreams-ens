@@ -8,7 +8,7 @@ build:
 
 .PHONY: stream
 stream: build
-	substreams run -e $(ENDPOINT) substreams.yaml map_transfers -s 12292922 -t +10
+	substreams run -e $(ENDPOINT) substreams.yaml map_new_owner -s 16476782 -t +500
 
 .PHONY: codegen
 codegen:
@@ -21,9 +21,9 @@ package: build
 .PHONE: deploy_local
 deploy_local: package
 	mkdir build 2> /dev/null || true
-	graph build --ipfs http://localhost:5001 ens-subgraph/subgraph.yaml
+	graph build --ipfs http://localhost:5001 subgraph.yaml
 	graph create ens --node http://127.0.0.1:8020
-	graph deploy --node http://127.0.0.1:8020 --ipfs http://127.0.0.1:5001 --version-label v0.0.1 ens ens-subgraph/subgraph.yaml
+	graph deploy --node http://127.0.0.1:8020 --ipfs http://127.0.0.1:5001 --version-label v0.0.1 ens subgraph.yaml
 
 .PHONE: undeploy_local
 undeploy_local:
