@@ -8,7 +8,7 @@ build:
 
 .PHONY: stream
 stream: build
-	substreams run -e $(ENDPOINT) substreams.yaml map_new_owner -s 16476782 -t +500
+	substreams run -e $(ENDPOINT) substreams.yaml map_new_owner -s 16476782 -t +100
 
 .PHONY: codegen
 codegen:

@@ -25,7 +25,7 @@ modules:
     inputs:
       - source: sf.ethereum.type.v2.Block
     output:
-      type: proto:ens.types.Domain
+      type: proto:ens.types.Domains
 
   - name: store_domains
     kind: store
