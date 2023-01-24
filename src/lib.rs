@@ -78,10 +78,11 @@ pub fn map_new_owner(block: Block) -> Result<Domains, Error> {
 #[substreams::handlers::store]
 pub fn store_domains(domains: Domains, store: StoreSetProto<Domain>) {
     for domain in domains.domains {
+        store.set(domain.log_ordinal, keyer::domain_key(&domain.id), &domain);
         store.set(
             domain.log_ordinal,
-            keyer::domain_key(&domain.id, &hex::encode(&domain.owner)),
+            keyer::domain_owner_key(&domain.id, &hex::encode(&domain.owner)),
             &domain,
-        )
+        );
     }
 }
