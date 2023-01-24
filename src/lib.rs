@@ -4,18 +4,12 @@ mod keyer;
 pub(crate) mod pb;
 mod rpc;
 
-use crate::abi::baseregistrar::functions::Ens;
-use crate::abi::registry::events::NewOwner;
 use crate::constants::{EMPTY_ADDRESS, ENS_REGISTRY, ROOT_NODE};
 use crate::pb::ens::{Domain, Domains};
 use ethabi::ethereum_types::H256;
-use ethabi::{Address, Event};
+use ethabi::Address;
 use substreams::errors::Error;
-use substreams::hex;
-use substreams::pb::substreams::Clock;
 use substreams::prelude::*;
-use substreams::scalar::{BigDecimal, BigInt};
-use substreams::store;
 use substreams_ethereum::pb::eth::v2::Block;
 use tiny_keccak::{Hasher, Keccak};
 
@@ -41,6 +35,7 @@ pub fn map_new_owner(block: Block) -> Result<Domains, Error> {
             domain.created_at_timestamp = block.timestamp_seconds();
             domain.created_at_block = block.number;
             domain.label_hash = event.label.to_vec();
+            domain.log_ordinal = log.ordinal();
             domain.owner = event.owner;
             if event.node == ROOT_NODE {
                 domain.owner = EMPTY_ADDRESS.to_vec();
@@ -58,7 +53,7 @@ pub fn map_new_owner(block: Block) -> Result<Domains, Error> {
             .map(|addr| rpc::get_name_call(&addr, &H256::from(event.node)).ok()?)
             .flatten();
 
-            let mut label = match rpc::get_name_call(&resolver_address, &subnode)? {
+            let label = match rpc::get_name_call(&resolver_address, &subnode)? {
                 None => {
                     format!("[{}]", &hex::encode(event.label)[2..])
                 }
